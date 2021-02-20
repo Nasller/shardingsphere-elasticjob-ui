@@ -37,6 +37,7 @@
     
     <properties>
         <revision>3.0.0-RC1-SNAPSHOT</revision>
+        <elasticjob.old.version>2.1.5</elasticjob.old.version>
         <elasticjob.version>3.0.0-RC1</elasticjob.version>
         <java.version>1.8</java.version>
         <springframework.version>4.3.24.RELEASE</springframework.version>
@@ -72,6 +73,17 @@
                     </exclusion>
                 </exclusions>
             </dependency>
+	        <dependency>
+		        <groupId>com.dangdang</groupId>
+		        <artifactId>elastic-job-lite-lifecycle</artifactId>
+		        <version>${elasticjob.old.version}</version>
+		        <exclusions>
+			        <exclusion>
+				        <artifactId>jetty-all-server</artifactId>
+				        <groupId>org.eclipse.jetty.aggregate</groupId>
+			        </exclusion>
+		        </exclusions>
+	        </dependency>
             <dependency>
                 <groupId>org.apache.shardingsphere.elasticjob</groupId>
                 <artifactId>elasticjob-cloud-common</artifactId>

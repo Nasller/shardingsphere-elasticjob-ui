@@ -17,18 +17,12 @@
 
 package org.apache.shardingsphere.elasticjob.lite.ui.web.controller;
 
-import org.apache.shardingsphere.elasticjob.infra.pojo.JobConfigurationPOJO;
+import com.dangdang.ddframe.job.lite.lifecycle.domain.JobSettings;
 import org.apache.shardingsphere.elasticjob.lite.ui.service.JobAPIService;
 import org.apache.shardingsphere.elasticjob.lite.ui.web.response.ResponseResult;
 import org.apache.shardingsphere.elasticjob.lite.ui.web.response.ResponseResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Job configuration RESTful API.
@@ -51,8 +45,8 @@ public final class JobConfigController {
      * @return job configuration
      */
     @GetMapping(value = "/{jobName:.+}")
-    public ResponseResult<JobConfigurationPOJO> getJobConfig(@PathVariable("jobName") final String jobName) {
-        JobConfigurationPOJO data = jobAPIService.getJobConfigurationAPI().getJobConfiguration(jobName);
+    public ResponseResult<JobSettings> getJobConfig(@PathVariable("jobName") final String jobName) {
+	    JobSettings data = jobAPIService.getJobConfigurationAPI().getJobSettings(jobName);
         return ResponseResultUtil.build(data);
     }
     
@@ -62,8 +56,8 @@ public final class JobConfigController {
      * @param jobConfiguration job configuration
      */
     @PutMapping
-    public ResponseResult<Boolean> updateJobConfig(@RequestBody final JobConfigurationPOJO jobConfiguration) {
-        jobAPIService.getJobConfigurationAPI().updateJobConfiguration(jobConfiguration);
+    public ResponseResult<Boolean> updateJobConfig(@RequestBody final JobSettings jobConfiguration) {
+        jobAPIService.getJobConfigurationAPI().updateJobSettings(jobConfiguration);
         return ResponseResultUtil.build(Boolean.TRUE);
     }
     
@@ -74,7 +68,7 @@ public final class JobConfigController {
      */
     @DeleteMapping("/{jobName:.+}")
     public ResponseResult<Boolean> removeJob(@PathVariable("jobName") final String jobName) {
-        jobAPIService.getJobConfigurationAPI().removeJobConfiguration(jobName);
+        jobAPIService.getJobConfigurationAPI().removeJobSettings(jobName);
         return ResponseResultUtil.build(Boolean.TRUE);
     }
 }

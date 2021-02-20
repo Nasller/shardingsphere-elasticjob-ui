@@ -27,10 +27,10 @@
     <name>${project.artifactId}</name>
 
     <dependencies>
-        <dependency>
-            <groupId>org.apache.shardingsphere.elasticjob</groupId>
-            <artifactId>elasticjob-lite-lifecycle</artifactId>
-        </dependency>
+	    <dependency>
+		    <groupId>com.dangdang</groupId>
+		    <artifactId>elastic-job-lite-lifecycle</artifactId>
+	    </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -59,6 +59,11 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
         </dependency>
+	    <dependency>
+		    <groupId>mysql</groupId>
+		    <artifactId>mysql-connector-java</artifactId>
+		    <version>5.1.38</version>
+	    </dependency>
     </dependencies>
     
     <build>

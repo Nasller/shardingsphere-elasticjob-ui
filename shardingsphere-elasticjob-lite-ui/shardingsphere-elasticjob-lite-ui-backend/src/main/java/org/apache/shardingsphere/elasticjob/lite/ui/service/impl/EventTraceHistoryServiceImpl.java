@@ -17,10 +17,10 @@
 
 package org.apache.shardingsphere.elasticjob.lite.ui.service.impl;
 
+import com.dangdang.ddframe.job.event.type.JobExecutionEvent;
+import com.dangdang.ddframe.job.event.type.JobStatusTraceEvent;
 import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shardingsphere.elasticjob.tracing.event.JobExecutionEvent;
-import org.apache.shardingsphere.elasticjob.tracing.event.JobStatusTraceEvent;
 import org.apache.shardingsphere.elasticjob.lite.ui.dao.search.JobExecutionLogRepository;
 import org.apache.shardingsphere.elasticjob.lite.ui.dao.search.JobStatusTraceLogRepository;
 import org.apache.shardingsphere.elasticjob.lite.ui.domain.JobExecutionLog;
@@ -31,12 +31,7 @@ import org.apache.shardingsphere.elasticjob.lite.ui.dto.request.FindJobStatusTra
 import org.apache.shardingsphere.elasticjob.lite.ui.service.EventTraceHistoryService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.data.jpa.convert.QueryByExamplePredicateBuilder;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;

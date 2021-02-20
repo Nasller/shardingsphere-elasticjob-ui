@@ -17,9 +17,10 @@
 
 package org.apache.shardingsphere.elasticjob.lite.ui.dao.search;
 
-import org.apache.shardingsphere.elasticjob.tracing.event.JobExecutionEvent;
-import org.apache.shardingsphere.elasticjob.tracing.event.JobStatusTraceEvent;
-import org.apache.shardingsphere.elasticjob.tracing.rdb.storage.RDBJobEventStorage;
+import com.dangdang.ddframe.job.context.ExecutionType;
+import com.dangdang.ddframe.job.event.rdb.JobEventRdbListener;
+import com.dangdang.ddframe.job.event.type.JobExecutionEvent;
+import com.dangdang.ddframe.job.event.type.JobStatusTraceEvent;
 import org.apache.shardingsphere.elasticjob.lite.ui.dto.request.FindJobExecutionEventsRequest;
 import org.apache.shardingsphere.elasticjob.lite.ui.dto.request.FindJobStatusTraceEventsRequest;
 import org.apache.shardingsphere.elasticjob.lite.ui.service.EventTraceHistoryService;
@@ -47,20 +48,20 @@ public class RDBJobEventSearchTestConfiguration implements InitializingBean {
     private void initStorage() throws SQLException {
         eventTraceHistoryService.findJobExecutionEvents(new FindJobExecutionEventsRequest(10, 1));
         eventTraceHistoryService.findJobStatusTraceEvents(new FindJobStatusTraceEventsRequest(10, 1));
-        RDBJobEventStorage storage = new RDBJobEventStorage(dataSource);
+	    JobEventRdbListener listener = new JobEventRdbListener(dataSource);
         for (int i = 1; i <= 500L; i++) {
-            JobExecutionEvent startEvent = new JobExecutionEvent("localhost", "127.0.0.1", "fake_task_id", "test_job_" + i, JobExecutionEvent.ExecutionSource.NORMAL_TRIGGER, 0);
-            storage.addJobExecutionEvent(startEvent);
+            JobExecutionEvent startEvent = new JobExecutionEvent("fake_task_id", "test_job_" + i, JobExecutionEvent.ExecutionSource.NORMAL_TRIGGER, 0);
+	        listener.listen(startEvent);
             if (i % 2 == 0) {
                 JobExecutionEvent successEvent = startEvent.executionSuccess();
-                storage.addJobExecutionEvent(successEvent);
+	            listener.listen(successEvent);
             }
-            storage.addJobStatusTraceEvent(new JobStatusTraceEvent(
+	        listener.listen(new JobStatusTraceEvent(
                     "test_job_" + i,
                     "fake_failed_failover_task_id",
                     "fake_slave_id",
                     JobStatusTraceEvent.Source.LITE_EXECUTOR,
-                    "FAILOVER",
+			        ExecutionType.valueOf("FAILOVER"),
                     "0",
                     JobStatusTraceEvent.State.TASK_FAILED,
                     "message is empty."

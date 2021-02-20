@@ -17,8 +17,9 @@
 
 package org.apache.shardingsphere.elasticjob.lite.ui.domain;
 
+import com.dangdang.ddframe.job.event.type.JobExecutionEvent;
+import com.dangdang.ddframe.job.event.type.JobExecutionEventThrowable;
 import lombok.Data;
-import org.apache.shardingsphere.elasticjob.tracing.event.JobExecutionEvent;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -81,7 +82,7 @@ public class JobExecutionLog {
                 startTime,
                 completeTime,
                 isSuccess,
-                failureCause
+		        new JobExecutionEventThrowable(null,failureCause)
         );
     }
     

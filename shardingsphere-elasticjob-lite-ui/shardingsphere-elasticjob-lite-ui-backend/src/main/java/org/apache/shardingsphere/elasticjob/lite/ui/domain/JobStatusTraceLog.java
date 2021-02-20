@@ -17,8 +17,9 @@
 
 package org.apache.shardingsphere.elasticjob.lite.ui.domain;
 
+import com.dangdang.ddframe.job.context.ExecutionType;
+import com.dangdang.ddframe.job.event.type.JobStatusTraceEvent;
 import lombok.Data;
-import org.apache.shardingsphere.elasticjob.tracing.event.JobStatusTraceEvent;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -77,7 +78,7 @@ public class JobStatusTraceLog {
                 taskId,
                 slaveId,
                 JobStatusTraceEvent.Source.valueOf(source),
-                executionType,
+		        ExecutionType.valueOf(executionType),
                 shardingItem,
                 JobStatusTraceEvent.State.valueOf(state),
                 message,

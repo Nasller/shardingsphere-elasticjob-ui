@@ -17,20 +17,16 @@
 
 package org.apache.shardingsphere.elasticjob.lite.ui.web.controller;
 
-import org.apache.shardingsphere.elasticjob.lite.lifecycle.internal.reg.RegistryCenterFactory;
-import org.apache.shardingsphere.elasticjob.reg.exception.RegException;
+import com.dangdang.ddframe.job.lite.lifecycle.internal.reg.RegistryCenterFactory;
+import com.dangdang.ddframe.job.reg.exception.RegException;
+import com.google.common.base.Optional;
 import org.apache.shardingsphere.elasticjob.lite.ui.domain.RegistryCenterConfiguration;
 import org.apache.shardingsphere.elasticjob.lite.ui.service.RegistryCenterConfigurationService;
 import org.apache.shardingsphere.elasticjob.lite.ui.util.SessionRegistryCenterConfiguration;
 import org.apache.shardingsphere.elasticjob.lite.ui.web.response.ResponseResult;
 import org.apache.shardingsphere.elasticjob.lite.ui.web.response.ResponseResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -115,7 +111,7 @@ public final class RegistryCenterController {
     private boolean setRegistryCenterNameToSession(final RegistryCenterConfiguration regCenterConfig, final HttpSession session) {
         session.setAttribute(REG_CENTER_CONFIG_KEY, regCenterConfig);
         try {
-            RegistryCenterFactory.createCoordinatorRegistryCenter(regCenterConfig.getZkAddressList(), regCenterConfig.getNamespace(), regCenterConfig.getDigest());
+            RegistryCenterFactory.createCoordinatorRegistryCenter(regCenterConfig.getZkAddressList(), regCenterConfig.getNamespace(), Optional.fromNullable(regCenterConfig.getDigest()));
             SessionRegistryCenterConfiguration.setRegistryCenterConfiguration((RegistryCenterConfiguration) session.getAttribute(REG_CENTER_CONFIG_KEY));
         } catch (final RegException ex) {
             return false;

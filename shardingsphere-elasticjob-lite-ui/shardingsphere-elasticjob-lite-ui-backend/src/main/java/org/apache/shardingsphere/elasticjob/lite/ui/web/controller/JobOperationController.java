@@ -17,18 +17,15 @@
 
 package org.apache.shardingsphere.elasticjob.lite.ui.web.controller;
 
-import org.apache.shardingsphere.elasticjob.lite.lifecycle.domain.JobBriefInfo;
-import org.apache.shardingsphere.elasticjob.lite.lifecycle.domain.ShardingInfo;
+import com.dangdang.ddframe.job.lite.lifecycle.domain.JobBriefInfo;
+import com.dangdang.ddframe.job.lite.lifecycle.domain.ShardingInfo;
+import com.google.common.base.Optional;
 import org.apache.shardingsphere.elasticjob.lite.ui.service.JobAPIService;
 import org.apache.shardingsphere.elasticjob.lite.ui.util.SessionRegistryCenterConfiguration;
 import org.apache.shardingsphere.elasticjob.lite.ui.web.response.ResponseResult;
 import org.apache.shardingsphere.elasticjob.lite.ui.web.response.ResponseResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -77,7 +74,7 @@ public final class JobOperationController {
      */
     @PostMapping("/{jobName}/trigger")
     public ResponseResult<Boolean> triggerJob(@PathVariable("jobName") final String jobName) {
-        jobAPIService.getJobOperatorAPI().trigger(jobName);
+        jobAPIService.getJobOperatorAPI().trigger(Optional.of(jobName), Optional.absent());
         return ResponseResultUtil.build(Boolean.TRUE);
     }
     
@@ -88,7 +85,7 @@ public final class JobOperationController {
      */
     @PostMapping(value = "/{jobName}/disable")
     public ResponseResult<Boolean> disableJob(@PathVariable("jobName") final String jobName) {
-        jobAPIService.getJobOperatorAPI().disable(jobName, null);
+        jobAPIService.getJobOperatorAPI().disable(Optional.of(jobName), null);
         return ResponseResultUtil.build(Boolean.TRUE);
     }
     
@@ -99,7 +96,7 @@ public final class JobOperationController {
      */
     @PostMapping(value = "/{jobName}/enable")
     public ResponseResult<Boolean> enableJob(@PathVariable("jobName") final String jobName) {
-        jobAPIService.getJobOperatorAPI().enable(jobName, null);
+        jobAPIService.getJobOperatorAPI().enable(Optional.of(jobName), null);
         return ResponseResultUtil.build(Boolean.TRUE);
     }
     
@@ -110,7 +107,7 @@ public final class JobOperationController {
      */
     @PostMapping(value = "/{jobName}/shutdown")
     public ResponseResult<Boolean> shutdownJob(@PathVariable("jobName") final String jobName) {
-        jobAPIService.getJobOperatorAPI().shutdown(jobName, null);
+        jobAPIService.getJobOperatorAPI().shutdown(Optional.of(jobName), Optional.absent());
         return ResponseResultUtil.build(Boolean.TRUE);
     }
     

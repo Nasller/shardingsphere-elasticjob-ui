@@ -17,19 +17,15 @@
 
 package org.apache.shardingsphere.elasticjob.lite.ui.web.controller;
 
-import org.apache.shardingsphere.elasticjob.lite.lifecycle.domain.JobBriefInfo;
-import org.apache.shardingsphere.elasticjob.lite.lifecycle.domain.ServerBriefInfo;
+import com.dangdang.ddframe.job.lite.lifecycle.domain.JobBriefInfo;
+import com.dangdang.ddframe.job.lite.lifecycle.domain.ServerBriefInfo;
+import com.google.common.base.Optional;
 import org.apache.shardingsphere.elasticjob.lite.ui.service.JobAPIService;
 import org.apache.shardingsphere.elasticjob.lite.ui.util.SessionRegistryCenterConfiguration;
 import org.apache.shardingsphere.elasticjob.lite.ui.web.response.ResponseResult;
 import org.apache.shardingsphere.elasticjob.lite.ui.web.response.ResponseResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -78,7 +74,7 @@ public final class ServerOperationController {
      */
     @PostMapping("/{serverIp}/disable")
     public ResponseResult<Boolean> disableServer(@PathVariable("serverIp") final String serverIp) {
-        jobAPIService.getJobOperatorAPI().disable(null, serverIp);
+        jobAPIService.getJobOperatorAPI().disable(null, Optional.of(serverIp));
         return ResponseResultUtil.build(Boolean.TRUE);
     }
     
@@ -89,7 +85,7 @@ public final class ServerOperationController {
      */
     @PostMapping("/{serverIp}/enable")
     public ResponseResult<Boolean> enableServer(@PathVariable("serverIp") final String serverIp) {
-        jobAPIService.getJobOperatorAPI().enable(null, serverIp);
+        jobAPIService.getJobOperatorAPI().enable(null, Optional.of(serverIp));
         return ResponseResultUtil.build(Boolean.TRUE);
     }
     
@@ -100,7 +96,7 @@ public final class ServerOperationController {
      */
     @PostMapping("/{serverIp}/shutdown")
     public ResponseResult<Boolean> shutdownServer(@PathVariable("serverIp") final String serverIp) {
-        jobAPIService.getJobOperatorAPI().shutdown(null, serverIp);
+        jobAPIService.getJobOperatorAPI().shutdown(null, Optional.of(serverIp));
         return ResponseResultUtil.build(Boolean.TRUE);
     }
     
@@ -111,7 +107,7 @@ public final class ServerOperationController {
      */
     @DeleteMapping("/{serverIp:.+}")
     public ResponseResult<Boolean> removeServer(@PathVariable("serverIp") final String serverIp) {
-        jobAPIService.getJobOperatorAPI().remove(null, serverIp);
+        jobAPIService.getJobOperatorAPI().remove(null, Optional.of(serverIp));
         return ResponseResultUtil.build(Boolean.TRUE);
     }
     
@@ -135,7 +131,7 @@ public final class ServerOperationController {
      */
     @PostMapping(value = "/{serverIp}/jobs/{jobName}/disable")
     public ResponseResult<Boolean> disableServerJob(@PathVariable("serverIp") final String serverIp, @PathVariable("jobName") final String jobName) {
-        jobAPIService.getJobOperatorAPI().disable(jobName, serverIp);
+        jobAPIService.getJobOperatorAPI().disable(Optional.of(jobName), Optional.of(serverIp));
         return ResponseResultUtil.build(Boolean.TRUE);
     }
     
@@ -147,7 +143,7 @@ public final class ServerOperationController {
      */
     @PostMapping("/{serverIp}/jobs/{jobName}/enable")
     public ResponseResult<Boolean> enableServerJob(@PathVariable("serverIp") final String serverIp, @PathVariable("jobName") final String jobName) {
-        jobAPIService.getJobOperatorAPI().enable(jobName, serverIp);
+        jobAPIService.getJobOperatorAPI().enable(Optional.of(jobName), Optional.of(serverIp));
         return ResponseResultUtil.build(Boolean.TRUE);
     }
     
@@ -159,7 +155,7 @@ public final class ServerOperationController {
      */
     @PostMapping("/{serverIp}/jobs/{jobName}/shutdown")
     public ResponseResult<Boolean> shutdownServerJob(@PathVariable("serverIp") final String serverIp, @PathVariable("jobName") final String jobName) {
-        jobAPIService.getJobOperatorAPI().shutdown(jobName, serverIp);
+        jobAPIService.getJobOperatorAPI().shutdown(Optional.of(jobName), Optional.of(serverIp));
         return ResponseResultUtil.build(Boolean.TRUE);
     }
     
@@ -171,7 +167,7 @@ public final class ServerOperationController {
      */
     @DeleteMapping("/{serverIp}/jobs/{jobName:.+}")
     public ResponseResult<Boolean> removeServerJob(@PathVariable("serverIp") final String serverIp, @PathVariable("jobName") final String jobName) {
-        jobAPIService.getJobOperatorAPI().remove(jobName, serverIp);
+        jobAPIService.getJobOperatorAPI().remove(Optional.of(jobName), Optional.of(serverIp));
         return ResponseResultUtil.build(Boolean.TRUE);
     }
 }
